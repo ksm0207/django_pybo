@@ -23,11 +23,11 @@
 #### ※ Question 모델 데이터 하나만 조회하기
 #### get 함수를 사용하면 리스트가 아닌 데이터 하나만 조회할 수 있다.
 
-###### [명령 프롬프트]
-###### >>> Question.objects.get(id=1) "class pybo.models.Question"
-###### <Question: pybo가 무엇인가요?>
-###### 반환값을 보면 QuerySet이 아니라 Question이다. 여기서 filter 함수와 get 함수의 차이점을 알 수 있다.
-###### filter 함수는 여러 건의 데이터를 반환하지만, get 함수는 단 한 건의 데이터를 반환한다. 두 함수의 차이점을 꼭  알아 두기 바란다.
+##### [명령 프롬프트]
+##### >>> Question.objects.get(id=1) "class pybo.models.Question"
+##### <Question: pybo가 무엇인가요?>
+##### 반환값을 보면 QuerySet이 아니라 Question이다. 여기서 filter 함수와 get 함수의 차이점을 알 수 있다.
+##### filter 함수는 여러 건의 데이터를 반환하지만, get 함수는 단 한 건의 데이터를 반환한다. 두 함수의 차이점을 꼭  알아 두기 바란다.
 
 #### ※ 제목의 일부를 이용하여 데이터 조회하기
 #### subject에 "장고"라는 문자열이 포함된 데이터를 조회하려면 조건에 subject__contains를 이용하면 된다.
