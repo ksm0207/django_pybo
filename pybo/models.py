@@ -7,7 +7,7 @@ class Question(models.Model):
     subject = models.CharField(max_length=200)  # 최대 200자 까지 입력 가능
     content = models.TextField()
     create_date = models.DateTimeField()
-    photo = models.ImageField()
+    photo = models.ImageField(upload_to="photo")
 
     def __str__(self):
         return self.subject
@@ -23,5 +23,5 @@ class Answer(models.Model):
     create_date = models.DateTimeField()
 
     def __str__(self):
-        return self.question
+        return self.content
 
