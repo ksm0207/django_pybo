@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    
+    {% if question_list %}
+    <ul>
+        {% for i in question_list  %}
+            <li>
+                <!-- 2021-01-21 / 11 : 14  발생된에러 URL 매핑오류-->
+                <!-- /pybo/1 은 모델 데이터 중 id 값이 1인 것을 조회하도록 해야함 -->
+                <a href="/pybo/{{ i.id }}/">{{ i.subject }}</a>
+            </li>
+        {% endfor %}        
+    </ul>
+    {% else %}
+        <p>조회된 질문이 없습니다.</p>
+    {% endif %}
+        
+    
+</body>
+</html>

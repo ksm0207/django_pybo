@@ -45,6 +45,58 @@
 ###### ※ 연결된 데이터 알아보기
 ###### https://wikidocs.net/70650
 
+###### ================================================================================================================
+
+##### 2021-01-21
+##### 장고는 앱 하위에 있는 templates 디렉터리를 자동으로 템플릿 디렉터리로 인식한다
+
+#### 장고는 DIRS에 설정한 디렉터리 외에도 특정 앱(예를 들어 pybo 앱) 디렉터리 하위에 있는 templates라는 이름의 디렉터리를 자동으로 템플릿 디렉터리로 인식한다. 예를 들어 다음과 같은 pybo 앱 디렉터리 밑의 templates #### 디렉터리는 별다른 설정을 하지 않아도 템플릿 디렉터리로 인식된다.
+
+#### C:\projects\mysite\pybo\templates
+#### 하지만 필자는 이 방법을 권장하지 않는다. 왜냐하면 하나의 사이트에서 여러 앱을 사용할 때 여러 앱의 화면을 구성하는 템플릿은 한 디렉터리에 모아 관리하는 편이 여러모로 좋기 때문이다. 예를 들어 여러 앱이 
+#### 공통으로  사용하는 공통 템플릿을 어디에 저장해야 할지 생각해 보면 왜 이런 방법을 선호하는지 쉽게 이해될 것이다.
+#### 그래서 파이보는 템플릿 디렉터리를 mysite/pybo/templates와 같은 방식이 아니라 mysite/templates/pybo 같은 방식으로 관리하며, 공통으로 사용하는 템플릿은 C:/projects/mysite/templates에 저장한다.
+##### 구분	경로
+##### 공통 템플릿 디렉터리	C:/projects/mysite/templates
+##### pybo 앱 템플릿 디렉터리	C:/projects/mysite/templates/pybo
 
 
+##### 템플릿 태그 의미
+##### {% if question_list %} question_list가 있다면
+##### {% for question in question_list %}	question_list를 반복하며 순차적으로 question에 대입
+##### {{ question.id }}	for 문에 의해 대입된 question 객체의 id 출력
+##### {{ question.subject }}	for 문에 의해 대입된 question 객체의 subject 출력
+##### - 템플릿 태그에서 사용된 question_list가 바로 render 함수에서 템플릿으로 전달한 Question 모델 데이터이다.
+##### - 만약 템플릿 태그의 자세한 내용이 궁금하다면 장고 공식 문서를 참고하자.
+##### - 템플릿 장고 공식 문서 주소: docs.djangoproject.com/en/3.0/topics/templates
 
+#### 템플릿 태그! 3가지 유형만 정리하면 끝!
+
+#### 장고의 템플릿 태그는 분기, 반복, 객체 출력이라는 3가지 유형만 알면 된다. 분기 템플릿 태그는 다음과 같다.
+#### 문법을 보면 알겠지만 파이썬의 if 문과 다르지 않다. 다만 if 문이 끝나는 부분에 {% endif %}를 사용하는 점만 다르다.
+
+#### {% if 조건문1 %}
+####     <p>조건문1에 해당되는 경우</p>
+#### {% elif 조건문2 %}
+####     <p>조건문2에 해당되는 경우</p>
+#### {% else %}
+####     <p>조건문1, 2에 모두 해당되지 않는 경우</p>
+#### {% endif %}
+#### 반복 템플릿 태그는 다음과 같다. 이 역시 파이썬의 for 문과 다르지 않으며, 역시 for 문의 마지막은 {% endfor %}로 닫아야 한다.
+
+#### {% for item in list %}
+####     <p>순서: {{ forloop.counter }} </p>
+####     <p>{{ item }}</p>
+#### {% endfor %}
+#### 또한 반복 템플릿 안에서는 forloop 객체를 사용할 수도 있다. forloop 객체는 반복 중 유용한 값을 제공한다.
+
+#### forloop 객체 속성	설명
+#### forloop.counter	for 문의 순서로 1부터 표시
+#### forloop.counter0	for 문의 순서로 0부터 표시
+#### forloop.first	for 문의 첫 번째 순서인 경우 True
+#### forloop.last	for 문의 마지막 순서인 경우 True
+#### 객체 출력 템플릿 태그는 다음과 같다. 객체에 속성이 있으면 파이썬과 동일한 방법으로 점(.) 연산자를 사용한다.
+
+#### {{ question }}
+#### {{ question.id }}
+#### {{ question.subject }}
