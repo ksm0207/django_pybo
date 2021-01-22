@@ -14,13 +14,14 @@
             <li>
                 <!-- 2021-01-21 / 11 : 14  발생된에러 URL 매핑오류-->
                 <!-- /pybo/1 은 모델 데이터 중 id 값이 1인 것을 조회하도록 해야함 -->
-                <a href="/pybo/{{ i.id }}/">{{ i.subject }}</a>
+                <!-- 2021-01-22 네임스페이스 추가 -->
+                <a href=" {% url 'pybo:detail' i.id  %} " >{{ i.subject }}</a>
             </li>
         {% endfor %}        
     </ul>
     {% else %}
         <p>조회된 질문이 없습니다.</p>
-        <a href="/pybo/">Home</a>
+        <a href=" {% url 'index' %} ">Home</a>
     {% endif %}
         
     

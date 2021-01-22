@@ -90,7 +90,7 @@
 #### {% endfor %}
 #### 또한 반복 템플릿 안에서는 forloop 객체를 사용할 수도 있다. forloop 객체는 반복 중 유용한 값을 제공한다.
 
-#### forloop 객체 속성	설명
+#### ※ forloop 객체 속성 설명
 #### forloop.counter	for 문의 순서로 1부터 표시
 #### forloop.counter0	for 문의 순서로 0부터 표시
 #### forloop.first	for 문의 첫 번째 순서인 경우 True
@@ -100,3 +100,29 @@
 #### {{ question }}
 #### {{ question.id }}
 #### {{ question.subject }}
+
+###### =================================================================================
+
+##### 2021-01-21
+##### 2-05 URL 더 똑똑하게 사용하기
+
+#### /pybo/{{ question.id }}는 질문 상세를 위한 URL 규칙이다.
+#### 하지만 이런 URL 규칙은 프로그램을 수정하면서 /pybo/question/2/ 또는 /pybo/2/question/으로 수정될 가능성도 있다.
+#### 이런 식으로 URL 규칙이 자주 변경된다면 템플릿에 사용된 모든 href값들을 일일이 찾아 수정해야 한다. URL 하드 코딩의 한계인 셈이다.
+#### 이런 문제를 해결하려면 해당 URL에 대한 실제 주소가 아닌 주소가 매핑된 URL 별칭을 사용해야 한다.
+
+[1] pybo/urls.py 수정하여 URL 별칭 사용하기
+    템플릿의 href에 실제 주소가 아니라 URL 별칭을 사용하려면 우선 pybo/urls.py 파일을 수정해야 한다.
+    path 함수에 있는 URL 매핑에 name 속성을 부여하자.
+    path('', views.index, name='index'), index 라는 URL 별칭 만들기
+    path('<int:question_id>/', views.detail, name='detail'), detail 이라는 URL 별칭이 생김
+
+[2] pybo/question_list.html 템플릿에서 URL 별칭 사용하기
+    1단계에서 만든 별칭을 템플릿에서 사용하기 위해 /pybo/{{ question.id }}를 {% url 'detail' question.id %}로 변경하자.
+    question.id는 URL 매핑에 정의된 <int: question_id>를 의미한다.
+
+URL 네임스페이스 알아보기
+여기서 한 가지 더 생각할 문제가 있다. 현재의 프로젝트에서는 pybo 앱 하나만 사용하지만
+이후 pybo 앱 이외의 다른 앱이 프로젝트에 추가될 수도 있다. 이때 서로 다른 앱에서 같은 URL 별칭을 사용하면 중복 문제가 생긴다.
+이 문제를 해결하려면 pybo/urls.py 파일에 네임스페이스(namespace)라는 개념을 도입해야 한다. 네임스페이스는 쉽게 말해 각각의 앱이 관리하는 독립된 이름 공간을 말한다.
+사용방법은 urls.py 파일에 간단히 app_name 변수에 네임스페이스 이름을 저장하면 된다.
