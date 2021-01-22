@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, reverse
 from .models import Question
 
 # - index 함수의 매개변수 request는 장고에 의해 자동으로 전달되는 HTTP 요청 객체이다.
@@ -20,8 +21,14 @@ def index(request):
 def detail(request, pk):
     # Question.get() --> 404() 으로 변경
     # get_object_or_404 함수는 모델의 기본키를 이용하여 모델 객체 한 건을 반환한다. pk에 해당하는 건이 없으면 오류 대신 404 페이지를 반환한다.
-    get_question = get_object_or_404(Question, pk=pk)
-    context = {"get_question": get_question}
+    # 01-22 get_object_or_404 --> get() 함수 변경
+
+    try:
+        get_question = Question.objects.get(pk=pk)
+        context = {"get_question": get_question}
+        # 존재 하지않는 페이지 입력했을때 예외처리 완료
+    except Question.DoesNotExist:
+        return render(request, "templates/index.html")
 
     return render(request, "templates/detail.html", context)
 
