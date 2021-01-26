@@ -159,11 +159,22 @@
 #### CSS 파일은 장고에서 정적(static)파일로 분류한다. 정적 파일은 주로 이미지(.png, .jpg)나 자바스크립트(.js), 스타일시트(.css)
 #### 같은 파일을 의미한다.
 
-[1] 설정 파일에 스태틱 디렉터리 위치 추가하기
-config/settings.py 파일을 열어 STATICFILES_DIRS에 스태틱 디렉터리 경로를 추가하자. BASE_DIR / 'static'은 C:/projects/mysite/static을 의미한다.
+#### [1] 설정 파일에 스태틱 디렉터리 위치 추가하기
+#### config/settings.py 파일을 열어 STATICFILES_DIRS에 스태틱 디렉터리 경로를 추가하자. BASE_DIR / 'static'은 C:/projects/
+#### mysite/ static을 의미한다.
 
-[2] 스태틱 디렉터리 만들고 스타일시트 작성하기
-프로젝트 루트 디렉터리에 static이라는 이름의 디렉터리를 생성하자. 루트 디렉터리는 C:/ projects/mysite를 의미한다.
+#### ※Django 프로젝트 홈 디렉토리 (settings.py에서의 BASE_DIR) 밑에 "static" 이라는 서브 폴더를 만들어 그곳에 static 파일들을 넣는다
+#### static 폴더에 파일들을 넣고 사용하기 위해서는 settings.py 에 하나의 셋팅을 추가해 주어야 한다.
+#### 즉, settings.py 파일에서 아래와 같이 static 파일들을 찾는 경로를 나타내는 STATICFILES_DIRS 라는 변수를 설정해야 한다.
+#### 경로가 여러 개일 수 있지만, 여기서는 BASE_DIR/static 폴더 하나를 지정하였다.
 
-[3] 질문 상세 템플릿에 스타일 적용하기
-pybo/question_detail.html 파일에 style.css 파일을 적용해 보자. 스태틱 파일을 사용하기위해 템플릿 파일 맨 위에 {% load static %} 태그를 삽입하고, link 엘리먼트 href 속성에 {% static 'style.css' %}를 적자.
+#### 변수 = STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+
+
+#### [2] 스태틱 디렉터리 만들고 스타일시트 작성하기
+#### 프로젝트 루트 디렉터리에 static이라는 이름의 디렉터리를 생성하자. 루트 디렉터리는 C:/ projects/mysite를 의미한다.
+
+#### [3] 질문 상세 템플릿에 스타일 적용하기
+#### 템플릿 상단에 {% load staticfiles %} 태그를 먼저 명시해 주어야 한다
+#### pybo/question_detail.html 파일에 style.css 파일을 적용해 보자. 스태틱 파일을 사용하기위해 템플릿 파일 맨 위에 
+#### {% load static %}  태그를 삽입하고, link 엘리먼트 href 속성에 {% static 'style.css' %}를 적자.
