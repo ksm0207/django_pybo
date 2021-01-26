@@ -129,3 +129,22 @@
 
 ##### 2021-01-25
 #### 2-06 답변 등록 기능 만들기
+
+#### {% csrf_token %}
+#### 이 코드는 보안 관련 항목이다 
+#### {% csrf_token %}는 form 엘리먼트를 통해 전송된 데이터(답변)가 실제로 웹 브라우저에서 작성된 데이터인지 판단하는 검사기 역할을한다. 
+#### 해킹처럼 올바르지 않은 방법으로 데이터가 전송되면 서버에서 발행한 csrf_token값과 해커가 보낸 csrf_token값이 일치하지 않으므로
+#### 오류를 발생시켜 보안을 유지할 수 있다.
+
+#### csrf_token은 장고의 기본 기능이다
+#### csrf_token을 사용하려면 장고에 CsrfViewMiddleware라는 미들웨어를 추가해야 한다.
+#### 하지만 이 미들웨어는 장고 프로젝트 생성 시 자동으로 config/settings.py 파일의 MIDDLEWARE라는 항목에 추가되므로 여러분이 직접 #### 입력할 필요는 없다.
+#### 
+##### def answer_create(request, question_id):
+    
+##### question = get_object_or_404(Question, pk=question_id)
+#### 이 값을 추출하기 위한 코드가 바로 request.POST.get('content')이다.
+#### 그리고 Question 모델을 통해 Answer 모델 데이터를 생성하기 위해 question.answer_set.create를 사용했다.
+#### - request.POST.get('content')는 POST 형식으로 전송된 form 데이터 항목 중 name이 content인 값을 의미한다.
+#### - Answer 모델이 Question 모델을 Foreign Key로 참조하고 있으므로 question.answer_set 같은 표현을 사용할 수 있다.
+#### question.answer_set.create(content=request.POST.get("content"), create_date=timezone.now())

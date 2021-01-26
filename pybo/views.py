@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404
-from django.shortcuts import redirect, reverse
-from .models import Question
+from django.shortcuts import redirect
+from django.utils import timezone
+from .models import Question, Answer
+
 
 # - index 함수의 매개변수 request는 장고에 의해 자동으로 전달되는 HTTP 요청 객체이다.
 # - request는 사용자가 전달한 데이터를 확인할 때 사용된다.
@@ -31,4 +33,26 @@ def detail(request, pk):
         return render(request, "templates/index.html")
 
     return render(request, "templates/detail.html", context)
+
+
+# answer_create 함수의 question_id 매개변수에는 URL 매핑 정보값이 넘어온다
+# 예를 들어 /pybo/answer/create/2가 요청되면 question_id에는 2가 넘어온다.
+# request 매개변수에는 pybo/question_detail.html에서 textarea에 입력된 데이터가 담겨 넘어온다.
+def answer_create(request, get_question):
+    question = Question.objects.get(pk=get_question)
+    # answer_create 함수의 get_question 매개변수에는 URL 매핑 정보값이 넘어온다.
+    # 예를 들어 /pybo/answer/create/2가 요청되면 get_question 에는 2가 넘어온다.
+    # request 매개변수에는 pybo/question_detail.html에서 textarea에 입력된 데이터가 담겨 넘어온다.
+    # 이 값을 추출하기 위한 코드가 바로 request.POST.get('content')이다.
+    answer = Answer(
+        question=question,
+        content=request.POST.get("content"),
+        create_date=timezone.now(),
+    )
+    print("Request ====", request)
+    print("Answer ==== ", answer)
+    print("ID === ", get_question)
+    answer.save()
+
+    return redirect("pybo:detail", pk=get_question)
 
