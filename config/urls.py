@@ -9,6 +9,6 @@ from django.conf import settings
 # pybo/ 로 시작되는 페이지 요청은 모두 pybo/urls.py 파일에 있는 URL 매핑을 처리된다
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("pybo/", include("pybo.urls")),
+    path("", include("pybo.urls")),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

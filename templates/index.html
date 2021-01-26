@@ -1,26 +1,49 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="  {% static 'bootstrap.min.css' %} ">
     <title>Document</title>
 </head>
 <body>
-    {% if question_list %}
-    <ul>
-        {% for i in question_list  %}
-            <li>
-                <!-- 2021-01-21 / 11 : 14  발생된에러 URL 매핑오류-->
-                <!-- /pybo/1 은 모델 데이터 중 id 값이 1인 것을 조회하도록 해야함 -->
-                <!-- 2021-01-22 네임스페이스 추가 -->
-                <a href=" {% url 'pybo:detail' i.id  %} " >{{ i.subject }}</a>
-            </li>
-        {% endfor %}    
-            {% for message in messages %}
-                {{ message.tag }}
-                {{ message }}
-          {% endfor %}    
-    </ul>
+    <div class="container my-3">
+        <table class="table">
+            <thead>
+                <tr class="thead-dark">
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성날짜</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if question_list %}
+                {% for i in question_list  %}
+            <tr>
+                <!--  질문 일련번호  : {{ forloop.counter }}를 이용하여 표시했다.자동으로 매겨지는 순섯값을 의미한다. -->
+                <td>{{forloop.counter}} </td>
+                <td>
+                     <a href=" {% url 'pybo:detail' i.id  %} " >{{ i.subject }}</a>
+                </td>
+                <td>
+                    {{i.create_date}}
+                </td>
+            </tr>
+        {% endfor %}
+        {% for message in messages %}
+        <tr>
+            <td colspan=3> {{ message }} </td>
+        </tr>
+        {% endfor %}   
+             
     {% endif %}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
+
+<!-- 2021-01-21 / 11 : 14  발생된에러 URL 매핑오류-->
+<!-- /pybo/1 은 모델 데이터 중 id 값이 1인 것을 조회하도록 해야함 -->
+<!-- 2021-01-22 네임스페이스 추가 -->

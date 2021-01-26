@@ -5,28 +5,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href=" {% static 'style.css' %} ">
+    <link rel="stylesheet" href="  {% static 'bootstrap.min.css' %} ">
     <!--  ↑ 추가한 코드는 static 디렉터리의 style.css 파일을 연결한다는 의미 -->
     <title>Document</title>
 </head>
 <body>
-        <h2>{{get_question.subject}}</h2>
-        <h4>{{get_question.content}}</h4>
-        <h4>{{get_question.create_date}}</h4>
-        <!-- <h4>{{get_question.photo}}</h4>     -->
-
-
-        <!-- question.answer_set.count는 답변 개수를 의미 -->
-        <h5> {{get_question.answer_set.count}} 개의 답변이 있습니다.</h5>
-
-        {% for answer in get_question.answer_set.all  %}
-            <h4>{{answer.content}}</h4>
+    <div class="container my-3">
+        <h2 class="border-bottom py-2" style="text-align: center;"> {{get_question.subject}}</h2>
+        <div class="card my-3">
+            <div class="card-body">
+                <div class="card-text" style="white-space: pre-line;" >
+                    {{get_question.content}}
+                </div>
+                <div class="d-flex justify-content-end">
+                    <div class="badge badge-light p-2">
+                        작성날짜 : {{get_question.create_date}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h5 class="border-bottom my-3 py-2">{{get_question.answer_set.count}}개의 답변이 있습니다.</h5>
+        {% for answer in get_question.answer_set.all %}
+            <div class="card my-3">
+                <div class="card-body" >
+                    <div class="card-text" style="white-space: pre-line;"> {{answer.content}} </div>
+                    <div class="d-flex justify-content-end">
+                        <div class="badge badge-light p-2">
+                            작성날짜 : {{answer.create_date}}
+                        </div>
+                    </div>
+                </div>
+            </div>
         {% endfor %}
-        
-        <form action=" {% url 'pybo:answer_create' get_question.id %} " method="POST">
-            {% csrf_token %}
-            <textarea name="content" id="content"rows="15"></textarea>
-            <input type="submit" value="답변등록하기">
-        </form>
+    </div>
+    
+    <form action=" {% url 'pybo:answer_create' get_question.id %} " method="POST">
+        {% csrf_token %}
+        <textarea name="content" id="content"rows="15"></textarea>
+        <input type="submit" value="답변등록하기">
+    </form>
 </body>
 </html>
