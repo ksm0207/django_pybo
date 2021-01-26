@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.shortcuts import redirect
 from django.utils import timezone
 from .models import Question, Answer
@@ -30,20 +30,16 @@ def detail(request, pk):
         context = {"get_question": get_question}
         # 존재 하지않는 페이지 입력했을때 예외처리 완료
     except Question.DoesNotExist:
-        return render(request, "templates/index.html")
+        # return render(request, "templates/index.html")
+        return redirect("pybo:index")
 
     return render(request, "templates/detail.html", context)
 
 
-# answer_create 함수의 question_id 매개변수에는 URL 매핑 정보값이 넘어온다
-# 예를 들어 /pybo/answer/create/2가 요청되면 question_id에는 2가 넘어온다.
-# request 매개변수에는 pybo/question_detail.html에서 textarea에 입력된 데이터가 담겨 넘어온다.
+# 답변 등록 기능 함수
 def answer_create(request, get_question):
     question = Question.objects.get(pk=get_question)
-    # answer_create 함수의 get_question 매개변수에는 URL 매핑 정보값이 넘어온다.
-    # 예를 들어 /pybo/answer/create/2가 요청되면 get_question 에는 2가 넘어온다.
-    # request 매개변수에는 pybo/question_detail.html에서 textarea에 입력된 데이터가 담겨 넘어온다.
-    # 이 값을 추출하기 위한 코드가 바로 request.POST.get('content')이다.
+
     answer = Answer(
         question=question,
         content=request.POST.get("content"),
@@ -53,6 +49,10 @@ def answer_create(request, get_question):
     print("Answer ==== ", answer)
     print("ID === ", get_question)
     answer.save()
+    # answer_create 함수의 get_question 매개변수에는 URL 매핑 정보값이 넘어온다.
+    # 예를 들어 /pybo/answer/create/2가 요청되면 get_question 에는 2가 넘어온다.
+    # request 매개변수에는 pybo/question_detail.html에서 textarea에 입력된 데이터가 담겨 넘어온다.
+    # 이 값을 추출하기 위한 코드가 바로 request.POST.get('content')이다.
 
     return redirect("pybo:detail", pk=get_question)
-
+    # redirect 함수의 첫 번째 인수에는 이동할 페이지의 별칭을, 두 번째 인수에는 해당 URL에 전달해야 하는 값을 입력한다.

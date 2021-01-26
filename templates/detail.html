@@ -10,19 +10,18 @@
         <h4>{{get_question.content}}</h4>
         <h4>{{get_question.create_date}}</h4>
         <!-- <h4>{{get_question.photo}}</h4>     -->
-        
+
         <!-- question.answer_set.count는 답변 개수를 의미 -->
         <h5> {{get_question.answer_set.count}} 개의 답변이 있습니다.</h5>
+
         {% for answer in get_question.answer_set.all  %}
             <h4>{{answer.content}}</h4>
         {% endfor %}
         
-
         <form action=" {% url 'pybo:answer_create' get_question.id %} " method="POST">
             {% csrf_token %}
             <textarea name="content" id="content"rows="15"></textarea>
             <input type="submit" value="답변등록하기">
         </form>
-
 </body>
 </html>
