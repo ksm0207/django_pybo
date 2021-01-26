@@ -148,3 +148,22 @@
 #### - request.POST.get('content')는 POST 형식으로 전송된 form 데이터 항목 중 name이 content인 값을 의미한다.
 #### - Answer 모델이 Question 모델을 Foreign Key로 참조하고 있으므로 question.answer_set 같은 표현을 사용할 수 있다.
 #### question.answer_set.create(content=request.POST.get("content"), create_date=timezone.now())
+
+##### 2021-01-26
+#### 2-07 화면 꾸미기
+
+##### 웹 페이지에 스타일시트 적용하기
+#### 웹 페이지에 디자인을 적용하려면 스타일시트(CSS)를 사용해야 하며, 스타일시트를 파이보에 적용하려면 CSS 파일이 스태틱(static)
+#### 디렉터리에 있어야 한다.
+
+#### CSS 파일은 장고에서 정적(static)파일로 분류한다. 정적 파일은 주로 이미지(.png, .jpg)나 자바스크립트(.js), 스타일시트(.css)
+#### 같은 파일을 의미한다.
+
+[1] 설정 파일에 스태틱 디렉터리 위치 추가하기
+config/settings.py 파일을 열어 STATICFILES_DIRS에 스태틱 디렉터리 경로를 추가하자. BASE_DIR / 'static'은 C:/projects/mysite/static을 의미한다.
+
+[2] 스태틱 디렉터리 만들고 스타일시트 작성하기
+프로젝트 루트 디렉터리에 static이라는 이름의 디렉터리를 생성하자. 루트 디렉터리는 C:/ projects/mysite를 의미한다.
+
+[3] 질문 상세 템플릿에 스타일 적용하기
+pybo/question_detail.html 파일에 style.css 파일을 적용해 보자. 스태틱 파일을 사용하기위해 템플릿 파일 맨 위에 {% load static %} 태그를 삽입하고, link 엘리먼트 href 속성에 {% static 'style.css' %}를 적자.

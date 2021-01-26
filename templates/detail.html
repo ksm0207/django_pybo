@@ -1,8 +1,12 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href=" {% static 'style.css' %} ">
+    <!--  ↑ 추가한 코드는 static 디렉터리의 style.css 파일을 연결한다는 의미 -->
     <title>Document</title>
 </head>
 <body>
@@ -10,6 +14,7 @@
         <h4>{{get_question.content}}</h4>
         <h4>{{get_question.create_date}}</h4>
         <!-- <h4>{{get_question.photo}}</h4>     -->
+
 
         <!-- question.answer_set.count는 답변 개수를 의미 -->
         <h5> {{get_question.answer_set.count}} 개의 답변이 있습니다.</h5>
