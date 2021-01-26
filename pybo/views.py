@@ -2,7 +2,9 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.utils import timezone
 from .models import Question, Answer
+from django.contrib import messages
 
+# from tkinter import *
 
 # - index 함수의 매개변수 request는 장고에 의해 자동으로 전달되는 HTTP 요청 객체이다.
 # - request는 사용자가 전달한 데이터를 확인할 때 사용된다.
@@ -31,6 +33,7 @@ def detail(request, pk):
         # 존재 하지않는 페이지 입력했을때 예외처리 완료
     except Question.DoesNotExist:
         # return render(request, "templates/index.html")
+        messages.error(request, "조회된 질문이 없습니다.")
         return redirect("pybo:index")
 
     return render(request, "templates/detail.html", context)

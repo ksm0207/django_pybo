@@ -15,7 +15,11 @@
                 <!-- 2021-01-22 네임스페이스 추가 -->
                 <a href=" {% url 'pybo:detail' i.id  %} " >{{ i.subject }}</a>
             </li>
-        {% endfor %}        
+        {% endfor %}    
+            {% for message in messages %}
+                {{ message.tag }}
+                {{ message }}
+          {% endfor %}    
     </ul>
     {% endif %}
 </body>
