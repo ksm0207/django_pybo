@@ -3,6 +3,7 @@ from django.shortcuts import redirect
 from django.utils import timezone
 from .models import Question, Answer
 from django.contrib import messages
+from .forms import QuestionForm
 
 # from tkinter import *
 
@@ -59,3 +60,12 @@ def answer_create(request, get_question):
 
     return redirect("pybo:detail", pk=get_question)
     # redirect 함수의 첫 번째 인수에는 이동할 페이지의 별칭을, 두 번째 인수에는 해당 URL에 전달해야 하는 값을 입력한다.
+
+
+# 질문 등록 기능 함수
+def question_create(request):
+    # QuestionForm 클래스로 생성한 객체 form을 사용
+    # 질문 등록하기 위한 장고 form 사용
+    form = QuestionForm()
+    return render(request, "templates/question_form.html", {"form": form})
+
