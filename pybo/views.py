@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.utils import timezone
 from .models import Question, Answer
 from django.contrib import messages
-from .forms import QuestionForm
+from .forms import QuestionForm, AnswerForm
 
 # from tkinter import *
 
@@ -43,23 +43,38 @@ def detail(request, pk):
 # 답변 등록 기능 함수
 def answer_create(request, get_question):
     question = Question.objects.get(pk=get_question)
+    if request.method == "POST":
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            answer = form.save(commit=False)
+            answer.create_date = timezone.now()
+            answer.question = question
+            answer.save()
+            # redirect 함수의 첫 번째 인수에는 이동할 페이지의 별칭을, 두 번째 인수에는 해당 URL에 전달해야 하는 값을 입력한다.
+            print(get_question)
+            return redirect("pybo:detail", pk=question.id)
+    else:
+        form = AnswerForm()
+    context = {"question": question, "form": form}
+    print("Context ===============================", context)
+    print("Question ===============================", question)
+    print("Form ===============================", question)
 
-    answer = Answer(
-        question=question,
-        content=request.POST.get("content"),
-        create_date=timezone.now(),
-    )
-    print("Request ====", request)
-    print("Answer ==== ", answer)
-    print("ID === ", get_question)
-    answer.save()
+    print("Request ===============================", request)
+    return render(request, "templates/detail.html", context)
+
+    # answer = Answer(
+    # question=question,
+    # content=request.POST.get("content"),
+    # create_date=timezone.now(),
+
+    # print("Request ====", request)
+    # print("Answer ==== ", answer)
+    # print("ID === ", get_question)
     # answer_create 함수의 get_question 매개변수에는 URL 매핑 정보값이 넘어온다.
     # 예를 들어 /pybo/answer/create/2가 요청되면 get_question 에는 2가 넘어온다.
     # request 매개변수에는 pybo/question_detail.html에서 textarea에 입력된 데이터가 담겨 넘어온다.
     # 이 값을 추출하기 위한 코드가 바로 request.POST.get('content')이다.
-
-    return redirect("pybo:detail", pk=get_question)
-    # redirect 함수의 첫 번째 인수에는 이동할 페이지의 별칭을, 두 번째 인수에는 해당 URL에 전달해야 하는 값을 입력한다.
 
 
 # 질문 등록 기능 함수

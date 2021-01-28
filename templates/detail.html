@@ -42,6 +42,18 @@
         
     <form action=" {% url 'pybo:answer_create' get_question.id %} " method="POST" class="my-3">
         {% csrf_token %}
+        
+        {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for fields in form  %}
+            
+            {% if fields.errors %}
+                <strong> {{fields.label}} </strong>
+                <span>{{fields.errors}}</span>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
         <div class="form-group">
             <textarea name="content" id="content" class="form-control" rows="10" style="text-align: center;"></textarea>
         </div>
