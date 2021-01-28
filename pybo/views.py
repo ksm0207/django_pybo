@@ -51,16 +51,11 @@ def answer_create(request, get_question):
             answer.question = question
             answer.save()
             # redirect 함수의 첫 번째 인수에는 이동할 페이지의 별칭을, 두 번째 인수에는 해당 URL에 전달해야 하는 값을 입력한다.
-            print(get_question)
-            return redirect("pybo:detail", pk=question.id)
+            return redirect("pybo:detail", pk=get_question)
     else:
         form = AnswerForm()
-    context = {"question": question, "form": form}
-    print("Context ===============================", context)
-    print("Question ===============================", question)
-    print("Form ===============================", question)
-
-    print("Request ===============================", request)
+    context = {"get_question": get_question, "form": form}
+    print("Context !! ", context)
     return render(request, "templates/detail.html", context)
 
     # answer = Answer(
