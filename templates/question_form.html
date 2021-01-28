@@ -10,10 +10,11 @@
 <body>
     <div class="container">
         <h5 class="my-3 border-bottom pb-2" style="text-align: center;">질문등록</h5>
-        <form action="POST" class="post-form my-3">
+        <form method="POST" class="post-form my-3">
             {% csrf_token %}
             <!-- {{ form.as_p }} 질문등록기능 함수에서 전달한 QuestionForm 객체 -->
             <!-- Model Form 과 연결된 subject content에 값을 입력할 수 있는 HTML 코드를 자동으로 생성된다 -->
+            <!-- 입력값을 채우고 저장하기 누를때 POST방식으로 요청됨 -->
             {{form.as_p}}
             <button type="submit" class="btn btn-primary">저장하기</button>
         </form>

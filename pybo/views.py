@@ -64,8 +64,23 @@ def answer_create(request, get_question):
 
 # 질문 등록 기능 함수
 def question_create(request):
-    # QuestionForm 클래스로 생성한 객체 form을 사용
-    # 질문 등록하기 위한 장고 form 사용
-    form = QuestionForm()
-    return render(request, "templates/question_form.html", {"form": form})
+    print("Request ===", request)
+
+    if request.method == "POST":  # 조건이 True일때
+        # 화면에서 전달받은 데이터로 폼의 값이 채워지는 객체 생성이 됨
+        form = QuestionForm(request.POST)
+        # 위 조건이 True 일때 form이 유효한지 검사진행
+        if form.is_valid():  # POST 요청으로 받은 form이 유효한가?
+            question = form.save(commit=False)  # Model 데이터를 임시 저장 Read.md 참고
+            question.create_date = timezone.now()
+            question.save()
+            return redirect("pybo:index")
+    else:
+        # QuestionForm 클래스로 생성한 객체 form을 사용
+        # 질문 등록하기 위한 사용하는 장고 form
+        # 입력값이 없는 객체 생성
+        form = QuestionForm()
+
+    context = {"form": form}
+    return render(request, "templates/question_form.html", context)
 
