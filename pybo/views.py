@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.utils import timezone
-from .models import Question, Answer
+from .models import Question
 from django.contrib import messages
 from .forms import QuestionForm, AnswerForm
 
