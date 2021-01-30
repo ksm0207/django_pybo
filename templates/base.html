@@ -4,7 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href=" {% static 'style.css' %} ">
     <link rel="stylesheet" href="  {% static 'bootstrap.min.css' %} ">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
     <title>Default</title>
 </head>
@@ -18,10 +21,14 @@
     {% include "navbar.html" %}
    <!-- end -->
 
+
     <!-- 기본 템플릿 안에 삽입되는 데이터 -->
     {% block content %}
 
     {% endblock  %}
+
+   {% include "footer.html" %}
+
 <!-- jQuery JS -->
 <script src="{% static 'jquery-3.5.1.min.js' %}"></script>
 <!-- Bootstrap JS -->

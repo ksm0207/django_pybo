@@ -27,7 +27,8 @@
                 <!--  질문 일련번호  : {{ forloop.counter }}를 이용하여 표시했다.자동으로 매겨지는 순섯값을 의미한다. -->
                 <td>{{forloop.counter}} </td>
                 <td>
-                     <a href=" {% url 'pybo:detail' i.id  %} " >{{ i.subject }}</a>
+                     
+                        <a  style="color: black; font-size: 15px; font-weight: bold;" href=" {% url 'pybo:detail' i.id  %} " >{{ i.subject }}</a>
                 </td>
                 <td>
                     {{i.create_date}}
@@ -43,7 +44,7 @@
     {% endif %}
             </tbody>
         </table>
-        <a href=" {% url 'pybo:question_create' %}" class="btn btn-primary" style="position: relative; left:480px;">질문등록</a>
+        <a href=" {% url 'pybo:question_create' %}" class="btn btn-primary" style="position: relative; left:480px; color:  white; background-color: darkgray; border: 1px solid white;">질문등록</a>
     </div>
     
 {% endblock  %}
