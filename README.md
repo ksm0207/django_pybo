@@ -243,7 +243,7 @@
 
 #### 0 pip install django-seed 설치하기
 #### 1 config --> settings.py INSTALLED_APPS 안에 django_seed 추가
-#### 2 데이터를 넣고자 하는 App 폴더안에 management/commands/seed.py 구성
+#### 2 데이터를 넣고자 하는 App 폴더안에 management/commands/seed.py 디렉토리 구성
 #### ※ management 폴더안에 __init__.py를 추가하여 Django가 인식할수 있도록하기 (필수)
 #### ※ 디렉토리 구성후 management 시스템으로 이용할수 있는 명령어 확인 = python manage.py --help 등록한 seed 내용이 존재하면 Ok
 #### 3 seed_board.py 명령어에 대한 argumnet 작성후 handle 로직 까지 구성하면 성공 Git 참조
@@ -252,8 +252,8 @@
 
 #### page = request.GET.get('page', '1')은 다음과 같은 GET 방식 요청 URL에서 page값을 가져올 때 사용한다.
 #### [GET 방식 요청 URL 예]
-
 #### localhost:8000/pybo/?page=1
+
 #### get('page', '1')에서 '1'은 /pybo/ URL처럼 page 파라미터가 없는 URL을 위해 기본값으로 1을 지정한 것이다.
 #### 페이징 구현에 사용한 클래스는 Paginator이다.
 
@@ -283,7 +283,7 @@
 #### [1] 게시물 번호 공식 만들기
 #### 일련번호 = 전체 게시물 개수 - 시작 인덱스 - 현재 인덱스 + 1
 
-#### ※ 페이지를 역순으로 표시해야할때 
+#### ※ 페이지를 역순(최신순)으로 표시해야할때 
 
 #### 전체 개시물 개수 = 게시물 개수
 #### 시작 인덱스 = 페이지당 시작되는 게시물 시작 번호 ( ex 1 2 3 ... 10)
@@ -302,8 +302,10 @@
 #### ※ add 필터는 인수로 숫자만 가능하다.
 
 #### [2] 템플릿 필터 디렉터리 만들기
+
 #### 템플릿 필터 함수는 템플릿 필터 파일을 작성한 다음에 정의해야 한다. 템플릿 필터 파일은 템플릿 파일이나 스태틱 파일과 마찬가지로
 #### 새로운 디렉토리를 만들어 저장하고 사용해야한다
+#### ※ pybo/templatetags/filter.py
 
 #### [3] 템플릿 필터 작성하기
 
