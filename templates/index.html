@@ -33,6 +33,10 @@
                 <td>
                     <a  style="color: black; font-size: 15px; font-weight: bold;" href=" {% url 'pybo:detail' i.id  %} " >{{ i.subject }}</a>
                     
+                    {% if i.answer_set.count > 0 %}
+                        <span class="text-danger small ml-2">{{ i.answer_set.count }} 개의 답변이 있습니다</span>
+                    {% endif %}
+                                            
                 </td>
                 <td>
                     {{i.create_date}}
