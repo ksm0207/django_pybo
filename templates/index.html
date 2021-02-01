@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static  %}
+{% load filter  %}
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,10 +27,12 @@
                 {% for i in question_list  %}
             <tr>
                 <!--  질문 일련번호  : {{ forloop.counter }}를 이용하여 표시했다.자동으로 매겨지는 순섯값을 의미한다. -->
-                <td>{{forloop.counter}} </td>
+                    <!-- 번호 = 전체게시물 - 시작인덱스 - 현재인덱스 +1 추가 -->
+                <td>{{ question_list.paginator.count|sub:question_list.start_index|sub:forloop.counter0|add:1 }}</td>
+                <!-- <td> {{forloop.counter}}  현재 인덱스 </td>  -->
                 <td>
-                     
-                        <a  style="color: black; font-size: 15px; font-weight: bold;" href=" {% url 'pybo:detail' i.id  %} " >{{ i.subject }}</a>
+                    <a  style="color: black; font-size: 15px; font-weight: bold;" href=" {% url 'pybo:detail' i.id  %} " >{{ i.subject }}</a>
+                    
                 </td>
                 <td>
                     {{i.create_date}}
@@ -80,7 +84,7 @@
             {% endif %}
         {% endif %}
         {% endfor %}
-        
+
         <!-- 다음페이지 -->
         {% if question_list.has_next %}
         <li class="page-item">
