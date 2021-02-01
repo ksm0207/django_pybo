@@ -247,4 +247,4 @@
 #### ※ management 폴더안에 __init__.py를 추가하여 Django가 인식할수 있도록하기 (필수)
 #### ※ 디렉토리 구성후 management 시스템으로 이용할수 있는 명령어 확인 = python manage.py --help 등록한 seed 내용이 존재하면 Ok
 #### 3 seed_board.py 명령어에 대한 argumnet 작성후 handle 로직 까지 구성하면 성공 Git 참조
-
+#### https://github.com/ksm0207/django_pybo/commit/4deed98d56738efeb9169b297cb6f60c48c51ae5
