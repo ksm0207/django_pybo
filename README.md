@@ -250,29 +250,30 @@
 
 #### https://github.com/ksm0207/django_pybo/commit/4deed98d56738efeb9169b297cb6f60c48c51ae5
 
-page = request.GET.get('page', '1')은 다음과 같은 GET 방식 요청 URL에서 page값을 가져올 때 사용한다.
-[GET 방식 요청 URL 예]
+#### page = request.GET.get('page', '1')은 다음과 같은 GET 방식 요청 URL에서 page값을 가져올 때 사용한다.
+#### [GET 방식 요청 URL 예]
 
-localhost:8000/pybo/?page=1
-get('page', '1')에서 '1'은 /pybo/ URL처럼 page 파라미터가 없는 URL을 위해 기본값으로 1을 지정한 것이다.
-페이징 구현에 사용한 클래스는 Paginator이다.
+#### localhost:8000/pybo/?page=1
+#### get('page', '1')에서 '1'은 /pybo/ URL처럼 page 파라미터가 없는 URL을 위해 기본값으로 1을 지정한 것이다.
+#### 페이징 구현에 사용한 클래스는 Paginator이다.
 
-paginator = Paginator(question_list, 10) # 페이지당 10개씩 보여 주기
-page_obj = paginator.get_page(page)
-Paginator 클래스는 question_list를 페이징 객체 paginator로 변환한다.
-두 번째 파라미터인 10은 페이지당 보여줄 게시물 개수를 의미한다.
-page_obj = paginator.get_page(page)로 만들어진 page_obj 객체에는 다음과 같은 속성들이 있다.
+#### paginator = Paginator(question_list, 10) # 페이지당 10개씩 보여 주기
+#### page_obj = paginator.get_page(page)
+#### Paginator 클래스는 question_list를 페이징 객체 paginator로 변환한다.
+#### 두 번째 파라미터인 10은 페이지당 보여줄 게시물 개수를 의미한다.
+#### page_obj = paginator.get_page(page)로 만들어진 page_obj 객체에는 다음과 같은 속성들이 있다.
 
-항목	                설명
-paginator.count	    전체 게시물 개수
-paginator.per_page	페이지당 보여줄 게시물 개수
-paginator.page_range   페이지 범위
-number	             현재 페이지 번호
-previous_page_number 이전 페이지 번호
-next_page_number	 다음 페이지 번호
-has_previous	     이전 페이지 유무
-has_next	         다음 페이지 유무
-start_index	         현재 페이지 시작 인덱스(1부터 시작)
-end_index	         현재 페이지의 끝 인덱스(1부터 시작)
+#### 항목	                설명
+#### paginator.count	    전체 게시물 개수
+#### paginator.per_page	페이지당 보여줄 게시물 개수
+#### paginator.page_range   페이지 범위
+#### number	             현재 페이지 번호
+#### previous_page_number 이전 페이지 번호
+#### next_page_number	 다음 페이지 번호
+#### has_previous	     이전 페이지 유무
+#### has_next	         다음 페이지 유무
+#### start_index	         현재 페이지 시작 인덱스(1부터 시작)
+#### end_index	         현재 페이지의 끝 인덱스(1부터 시작)
 
-※ Paginator의  속성들은 템플릿에서 페이징을 처리할 때 사용된다.
+#### ※ Paginator의  속성들은 템플릿에서 페이징을 처리할 때 사용된다.
+#### https://github.com/ksm0207/django_pybo/commit/fd0ad1b07c2649f7a215e8d2fbadf7e58a15c2dc
