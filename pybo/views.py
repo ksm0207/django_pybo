@@ -4,6 +4,8 @@ from django.utils import timezone
 from .models import Question
 from django.contrib import messages
 from .forms import QuestionForm, AnswerForm
+from django.core.paginator import Paginator
+
 
 # from tkinter import *
 
@@ -17,7 +19,15 @@ def index(request):
     # order_by() : 조회한 데이터를 특정 속성으로 정렬함 -create_date는 - 기호가 앞에 있으면 작성일시의 역순을 의미함
     question_list = Question.objects.order_by("-create_date")
     # 역순으로 조회된 데이터 변수에 저장
-    context = {"question_list": question_list}
+
+    #  페이지 기능 추가 02-01
+    page = request.GET.get("page", "1")  # 페이지 GET 방식 요청
+
+    paginator = Paginator(question_list, 10)  # 페이지 게시물 10개씩 보여주기
+    page_obj = paginator.get_page(page)
+    print(page_obj)
+
+    context = {"question_list": page_obj}
 
     # render 함수는 context에 있는 Question 모델 데이터 question_list를 templates/index.html 파일에 적용하여 HTML 코드로 변환한다.
     return render(request, "templates/index.html", context)
