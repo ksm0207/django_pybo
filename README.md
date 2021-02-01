@@ -234,4 +234,17 @@
 #### [1] 로고, 로그인 링크 추가하기
 #### ※ 메인페이지로 이동해주는 로고를 가장 왼쪽에 배치하고 오른쪽에는 로그인 링크를 설정 in base.html
 
-3-02 게시판 페이징 기능 추가하기
+
+##### 2021-02-01
+#### 3-02 게시판 페이징 기능 추가하기
+
+#### ※ 페이징을 구현하기 전에 페이징을 테스트할 정도로만 충분한 임시 질문 데이터 300개 생성하기
+#### 개인으로 진행한 Seed 데이터로 생성하기
+
+#### 0 pip install django-seed 설치하기
+#### 1 config --> settings.py INSTALLED_APPS 안에 django_seed 추가
+#### 2 데이터를 넣고자 하는 App 폴더안에 management/commands/seed.py 구성
+#### ※ management 폴더안에 __init__.py를 추가하여 Django가 인식할수 있도록하기 (필수)
+#### ※ 디렉토리 구성후 management 시스템으로 이용할수 있는 명령어 확인 = python manage.py --help 등록한 seed 내용이 존재하면 Ok
+#### 3 seed_board.py 명령어에 대한 argumnet 작성후 handle 로직 까지 구성하면 성공 Git 참조
+
