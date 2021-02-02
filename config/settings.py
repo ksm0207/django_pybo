@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # 장고 프로젝트에 설치된 앱 목록 , 앱 생성시 수동으로 설정해야함
 INSTALLED_APPS = [
     "pybo.apps.PyboConfig",  # New !! 01-14 .. in apps.py
+    "common.apps.CommonConfig",  # 02-02 add
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

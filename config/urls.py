@@ -10,5 +10,7 @@ from django.conf import settings
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("pybo.urls")),
+    path("common/", include("common.urls")),
+    # /common/으로 시작하는 URL은 모두 common/urls.py 파일을 참조한다
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

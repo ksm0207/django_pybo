@@ -322,3 +322,37 @@
 #### 변수.paginator.count	전체 게시물 개수
 #### 변수.start_index	    시작 인덱스(1부터 시작)
 #### forloop.counter0	    루프 내의 현재 인덱스(forloop.counter0는 0부터, forloop.counter는 1부터 시작)
+
+##### 2021-02-02
+#### 3-05 로그인 & 로그아웃 구현하기
+
+#### 장고는 로그인 · 로그아웃을 쉽게 구현할 수 있도록 django.contrib.auth 앱을 제공한다.
+#### 이 앱은 장고 프로젝트 생성 시 mysite/config/settings.py에 자동으로 추가된다.
+
+[1] common 앱 생성하기
+
+[2] 설정 파일에 common 앱 등록하기
+config/settings.py 파일에 common 앱을 등록하기.
+
+※ settings.py (INSTALLED_APPS 앱 등록) ->  config -> urls.py -> common URL 등록 -> common --> urls.py 생성 -> URL 설정
+
+로그인 구현하기
+
+[1] 내비게이션바 수정하고 URL 매핑 추가
+
+urls.py = path('login/', auth_views.LoginView.as_view(), name='login')
+로그인 기능은 django.contrib.auth 앱을 사용할 것이므로 common/views.py 파일은 수정할 필요가 없고
+django.contrib.auth 앱의 LoginView 클래스를 사용한다
+
+django.contrib.auth 앱의 LoginView 클래스는 다음과 같이 사용한다
+첫번째 에러 : 로그인 클릭 시 registration 이라는 템플릿 디렉터리에서 login.html 파일을 찾는 오류 발생
+해결방안 : 로그인은 common 앱에 구현할 것이므로 오류 메시지에 표시한 것처럼 registration 디렉터리에 템플릿 파일을 생성하기보다는
+           common 디렉터리에 템플릿을 생성하였다
+           이를 위해 LoginView가 common 디렉터리의 템플릿을 참조할 수 있도록 common/urls.py 파일을 다음과 같이 수정해준다
+
+☆ urls.py =  path('login/', auth_views.LoginView.as_view(), name='login') 개선전
+★ urls.py =  path('login/', auth_views.LoginView.as_view(template_name='common/login.html'), name='login') 개선후
+
+※ as_view 함수에 template_name으로 'common/login.html'을 설정하면 registration 디렉터리가 아닌 common 디렉터리에서 login.html 파일을 참조하게 된다
+※ templates 폴더안에 common 폴더 생성후 login.html 생성하기 즉 참조할수 있게 만들기
+
