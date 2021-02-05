@@ -340,37 +340,44 @@
 
 #### [1] 내비게이션바 수정하고 URL 매핑 추가
 
-urls.py = path('login/', auth_views.LoginView.as_view(), name='login')
-로그인 기능은 django.contrib.auth 앱을 사용할 것이므로 common/views.py 파일은 수정할 필요가 없고
-django.contrib.auth 앱의 LoginView 클래스를 사용한다
+#### urls.py = path('login/', auth_views.LoginView.as_view(), name='login')
+#### 로그인 기능은 django.contrib.auth 앱을 사용할 것이므로 common/views.py 파일은 수정할 필요가 없고
+#### django.contrib.auth 앱의 LoginView 클래스를 사용한다
 
-django.contrib.auth 앱의 LoginView 클래스는 다음과 같이 사용한다
-첫번째 에러 : 로그인 클릭 시 registration 이라는 템플릿 디렉터리에서 login.html 파일을 찾는 오류 발생
-해결방안 : 로그인은 common 앱에 구현할 것이므로 오류 메시지에 표시한 것처럼 registration 디렉터리에 템플릿 파일을 생성하기보다는
-           common 디렉터리에 템플릿을 생성하였다
-           이를 위해 LoginView가 common 디렉터리의 템플릿을 참조할 수 있도록 common/urls.py 파일을 다음과 같이 수정해준다
+#### django.contrib.auth 앱의 LoginView 클래스는 다음과 같이 사용한다
+#### 첫번째 에러 : 로그인 클릭 시 registration 이라는 템플릿 디렉터리에서 login.html 파일을 찾는 오류 발생
+#### 해결방안 : 로그인은 common 앱에 구현할 것이므로 오류 메시지에 표시한 것처럼 registration 디렉터리에 템플릿 파일을 생성하기보다는
+####            common 디렉터리에 템플릿을 생성하였다
+####            이를 위해 LoginView가 common 디렉터리의 템플릿을 참조할 수 있도록 common/urls.py 파일을 다음과 같이 수정해준다
 
-☆ urls.py =  path('login/', auth_views.LoginView.as_view(), name='login') 개선전
-★ urls.py =  path('login/', auth_views.LoginView.as_view(template_name='common/login.html'), name='login') 개선후
+#### ☆ urls.py =  path('login/', auth_views.LoginView.as_view(), name='login') 개선전
+#### ★ urls.py =  path('login/', auth_views.LoginView.as_view(template_name='common/login.html'), name='login') 개선후
 
-※ as_view 함수에 template_name으로 'common/login.html'을 설정하면 registration 디렉터리가 아닌 common 디렉터리에서 login.html 파일을 참조하게 된다
-※ templates 폴더안에 common 폴더 생성후 login.html 생성하기 즉 참조할수 있게 만들기
+#### ※ as_view 함수에 template_name으로 'common/login.html'을 설정하면 registration 디렉터리가 아닌 common 디렉터리에서 login.html 파일을 참조하게 된다
+#### ※ templates 폴더안에 common 폴더 생성후 login.html 생성하기 즉 참조할수 있게 만들기
 
-[2] 로그인 성공 시 이동할 페이지 등록하기
-로그인 성공 시 / 페이지로 이동할 수 있도록 config/settings.py 파일을 수정해주었다
-LOGIN_REDIRECT_URL을 추가 :: LOGIN_REDIRECT_URL = '/'
+#### [2] 로그인 성공 시 이동할 페이지 등록하기
+#### 로그인 성공 시 / 페이지로 이동할 수 있도록 config/settings.py 파일을 수정해주었다
+#### LOGIN_REDIRECT_URL을 추가 :: LOGIN_REDIRECT_URL = '/'
 
-[3] 로그아웃 구현하기
-{% if user.is_authenticated %}
-    <a class="nav-link" href="{% url 'common:logout' %}">{{ user.username }} (로그아웃)</a>
-{% else %}
-    <a class="nav-link" href="{% url 'common:login' %}">로그인</a>
-{% if user.is_authenticated %}은 현재 로그인 상태를 판별하여 로그인 상태라면 로그아웃 링크를, 로그아웃 상태라면 로그인 링크를 보여 준다
+#### [3] 로그아웃 구현하기
+#### {% if user.is_authenticated %}
+####     <a class="nav-link" href="{% url 'common:logout' %}">{{ user.username }} (로그아웃)</a>
+#### {% else %}
+####     <a class="nav-link" href="{% url 'common:login' %}">로그인</a>
+#### {% if user.is_authenticated %}은 현재 로그인 상태를 판별하여 로그인 상태라면 로그아웃 링크를, 로그아웃 상태라면 로그인 링크를 보여 준다
 
-[4] 로그아웃 URL 매핑하기
-로그아웃 링크가 추가되었으므로 {% url 'common:logout' %}에 대응하는 URL 매핑을 common/urls.py 파일에 추가하자.
-path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+#### [4] 로그아웃 URL 매핑하기
+#### 로그아웃 링크가 추가되었으므로 {% url 'common:logout' %}에 대응하는 URL 매핑을 common/urls.py 파일에 추가하자.
+#### path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 
-[5] 로그아웃 성공 시 이동할 페이지 등록하기
-로그인 성공 시 리다이렉트할 위치인 LOGIN_REDIRECT_URL을 등록했던 것과 마찬가지로 로그아웃 성공 시 리다이렉트할 위치도 config/settings.py 파일에 추가하자
-LOGOUT_REDIRECT_URL = '/'
+#### [5] 로그아웃 성공 시 이동할 페이지 등록하기
+#### 로그인 성공 시 리다이렉트할 위치인 LOGIN_REDIRECT_URL을 등록했던 것과 마찬가지로 로그아웃 성공 시 리다이렉트할 위치도 config/settings.py 파일에 추가하자
+#### LOGOUT_REDIRECT_URL = '/'
+
+
+##### 2021-02-02
+#### 3-06 회원가입 구현하기
+
+※ 장고의 django.contrib.auth 앱을 이용하여 구현하기
+
