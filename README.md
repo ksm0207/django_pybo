@@ -514,4 +514,5 @@
 
 ##### 2021-02-05
 #### 3-07 글쓴이 표시하기
+#### GitHub : https://github.com/ksm0207/django_pybo/commit/afa4fa0b0835f47d3b3b9a4dbcdb6608baab9f61
 #### 게시판의 게시물에는 '글쓴이'를 표시하는 것이 일반적이다. 질문 목록, 질문 상세 화면에 auther 필드를 이용하여 글쓴이를 표시해 보자
