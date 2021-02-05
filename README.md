@@ -402,7 +402,7 @@
 #### password2	 비밀번호2(비밀번호1을 제대로 입력했는지 대조하기 위한 값)
 #### ↑ UserCreationForm이 기본적으로 가지고 있는 속성
 #### ※ 위 속성에 부가 정보인 Email 속성을 추가하기 위해서 UserCreationForm을 상속한 UserForm을 만든 것
-#### # UserCreationForm 의 is_vaild 함수는 회원가입 화면의 필드값 3개가 모두 입력 되었는지 규칙에 맞는지 등등 검사한다
+#### # UserCreationForm 의 is_vaild 함수는 회원가입 화면의 필드값 3개가 모두 입력 되었는지 규칙에 맞는지 검사한다
 
 #### [4] 회원가입을 위한 signup 함수 정의하기
 #### POST 요청인 경우 화면에서 입력한 데이터로 새로운 사용자를 생성하고,
