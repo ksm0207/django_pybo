@@ -378,6 +378,7 @@
 
 ##### 2021-02-02
 #### 3-06 회원가입 구현하기
+#### GitHub : https://github.com/ksm0207/django_pybo/commit/f0b8c5a3afb1f282d255c26b2f433073f5bd28af
 
 #### ※ 장고의 django.contrib.auth 앱을 이용하여 구현시작
 #### ※ 내가 생각한 View를 만들기 위한 절차 단계
@@ -411,3 +412,4 @@
 #### ※ authenticate, login 함수는 django.contrib.auth 패키지에 있는 함수로 사용자 인증과 로그인을 담당한다
 
 #### [5] 회원가입 템플릿 만들기
+#### https://github.com/ksm0207/django_pybo/commit/f0b8c5a3afb1f282d255c26b2f433073f5bd28af#diff-f3d2875723b455f8d58cfd98b636814d22f6d574f6ad0ebe5ef07a67b59d89dd
