@@ -511,3 +511,7 @@
 ####              <textarea {% if not user.is_authenticated %}disabled{% endif %}
 ####              name="content" id="content" class="form-control" rows="10"></textarea>
 
+
+##### 2021-02-05
+#### 3-07 글쓴이 표시하기
+#### 게시판의 게시물에는 '글쓴이'를 표시하는 것이 일반적이다. 질문 목록, 질문 상세 화면에 auther 필드를 이용하여 글쓴이를 표시해 보자

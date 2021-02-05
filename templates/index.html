@@ -19,6 +19,7 @@
                 <tr class="thead-dark">
                     <th>번호</th>
                     <th>제목</th>
+                    <th>글쓴이</th>
                     <th>작성날짜</th>
                 </tr>
             </thead>
@@ -30,7 +31,7 @@
                     <!-- 번호 = 전체게시물 - 시작인덱스 - 현재인덱스 +1 추가 -->
                 <td>{{ question_list.paginator.count|sub:question_list.start_index|sub:forloop.counter0|add:1 }}</td>
                 <!-- <td> {{forloop.counter}}  현재 인덱스 </td>  -->
-                <td>
+                <td class="text-left">
                     <a  style="color: black; font-size: 15px; font-weight: bold;" href=" {% url 'pybo:detail' i.id  %} " >{{ i.subject }}</a>
                     
                         <!-- 답변이 있는 경우를 검사 시작 -->
@@ -39,6 +40,9 @@
                     {% endif %}
                         <!-- 검사 종료 -->
                 </td>
+                <td>
+                    <span style="position: relative; left: 10px;">{{ i.author }}</span>
+                </td> 
                 <td>
                     {{i.create_date}}
                 </td>
