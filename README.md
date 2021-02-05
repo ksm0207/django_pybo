@@ -1,21 +1,19 @@
 # django_pybo
-# Python Web 프로그래밍 학습시작
-# 게시판 만들기 
-# 출처 https://wikidocs.net/book/4223
+## Python Web 프로그래밍 학습 기록
+###  게시판 만들기 / 출처 https://wikidocs.net/book/4223
 
+## [2021-01-14]
+* Model 만들기
+* 질문 목록 및 질문 상세 기능 구현하기
 
+* Filter VS GET 비교해보기
+* 조건식으로 Question 모델 데이터 조회하기
+이전 단계에서는 Question 모델 데이터를 모두 조회했다. 조건을 주어 Question 모델 데이터를 조회하고 싶다면 filter 함수를 사용하면 된다.
 
-##### 2021-01-14 
-#### Model 만들기
-#### 질문 목록 및 질문 상세 기능 구현하기
-
-#### Filter VS GET 
-
-#### ※ 조건으로 Question 모델 데이터 조회하기
-#### 이전 단계에서는 Question 모델 데이터를 모두 조회했다. 조건을 주어 Question 모델 데이터를 조회하고 싶다면 filter 함수를 사용하면 된다.
-
-##### [명령 프롬프트]
-##### >>> Question.objects.filter(id=1) "class django.db.models.query.QuerySet"
+```
+// [명령 프롬프트]
+>>> Question.objects.filter(id=1) "class django.db.models.query.QuerySet"
+```
 ##### <QuerySet [<Question: pybo가 무엇인가요?>]>
 ##### filter 함수는 조건에 해당하는 데이터를 모두 찾아준다. 지금은 유일한 값인 id를 조건에 사용했으므로 Question 모델 데이터 하나만 나왔다.
 ##### 하지만 filter 함수는 1개 이상의 데이터를 반환한다. 다만 filter 함수는
