@@ -376,7 +376,7 @@
 #### LOGOUT_REDIRECT_URL = '/'
 
 
-##### 2021-02-02
+##### 2021-02-05
 #### 3-06 회원가입 구현하기
 #### GitHub : https://github.com/ksm0207/django_pybo/commit/f0b8c5a3afb1f282d255c26b2f433073f5bd28af
 
@@ -413,3 +413,4 @@
 
 #### [5] 회원가입 템플릿 만들기
 #### https://github.com/ksm0207/django_pybo/commit/f0b8c5a3afb1f282d255c26b2f433073f5bd28af#diff-f3d2875723b455f8d58cfd98b636814d22f6d574f6ad0ebe5ef07a67b59d89dd
+
