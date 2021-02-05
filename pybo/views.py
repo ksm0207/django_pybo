@@ -5,7 +5,7 @@ from .models import Question
 from django.contrib import messages
 from .forms import QuestionForm, AnswerForm
 from django.core.paginator import Paginator
-
+from django.contrib.auth.decorators import login_required
 
 # from tkinter import *
 
@@ -51,12 +51,15 @@ def detail(request, pk):
 
 
 # 답변 등록 기능 함수
+@login_required(login_url="common:login")
 def answer_create(request, get_question):
     question = Question.objects.get(pk=get_question)
     if request.method == "POST":
         form = AnswerForm(request.POST)
         if form.is_valid():
             answer = form.save(commit=False)
+            answer.author = request.user  # author 필드 적용
+            print("Answer User ==== ", answer.author)
             answer.create_date = timezone.now()
             answer.question = question
             answer.save()
@@ -83,6 +86,7 @@ def answer_create(request, get_question):
 
 
 # 질문 등록 기능 함수
+@login_required(login_url="common:login")
 def question_create(request):
     print("Request ===", request)
 
@@ -92,6 +96,8 @@ def question_create(request):
         # 위 조건이 True 일때 form이 유효한지 검사진행
         if form.is_valid():  # POST 요청으로 받은 form이 유효한가?
             question = form.save(commit=False)  # Model 데이터를 임시 저장 Read.md 참고
+            question.author = request.user
+            print("Question User ===== ", question.author)
             question.create_date = timezone.now()
             question.save()
             return redirect("pybo:index")

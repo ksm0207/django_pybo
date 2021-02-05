@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 # 질문 모델 생성
@@ -8,6 +9,9 @@ class Question(models.Model):
     content = models.TextField()
     create_date = models.DateTimeField()
     photo = models.ImageField(upload_to="photo")
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True
+    )  # 계정이 삭제되면 연결된 질문 데이터 삭제
 
     def __str__(self):
         return self.subject
@@ -21,6 +25,9 @@ class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     content = models.TextField()
     create_date = models.DateTimeField()
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True
+    )  # 계정이 삭제되면 연결된 질문 데이터 삭제
 
     def __str__(self):
         return self.content

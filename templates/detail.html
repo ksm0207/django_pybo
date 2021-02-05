@@ -57,7 +57,10 @@
      <!-- 오류표시 END -->
 
         <div class="form-group">
-            <textarea name="content" id="content" class="form-control" rows="10" style="text-align: center;"></textarea>
+            <!-- disabled 속성을 사용하여 입력을 못하게 만듦 -->
+            <textarea {% if not user.is_authenticated %}disabled{% endif %}
+              name="content" id="content" class="form-control" rows="10"></textarea>
+
         </div>
         <!-- <a href="#">이전으로</a> -->
         <input type="submit" value="답변등록" class="btn btn-primary" style="position: relative; left: 480px;">

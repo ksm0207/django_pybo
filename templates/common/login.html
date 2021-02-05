@@ -10,6 +10,7 @@
     </div>
     <form class="post-form my-3"  action=" {% url 'common:login' %} " method="POST">
         {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">  <!-- 로그인 성공후 이동되는 URL -->
         {% include 'form.errors.html' %}
         
         <div class="form-group">

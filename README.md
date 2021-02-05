@@ -414,3 +414,99 @@
 #### [5] 회원가입 템플릿 만들기
 #### https://github.com/ksm0207/django_pybo/commit/f0b8c5a3afb1f282d255c26b2f433073f5bd28af#diff-f3d2875723b455f8d58cfd98b636814d22f6d574f6ad0ebe5ef07a67b59d89dd
 
+##### 2021-02-05
+#### 3-07 글쓴이 추가하기
+
+#### [1] Question 모델에 author 필드 추가하기
+#### author = models.ForeignKey(User, on_delete=models.CASCADE)
+
+#### ※ User 모델의 필수 속성
+
+####  속성	      설명
+#### username	사용자명
+#### password	비밀번호
+#### User 모델에는 필수 속성외에도 여러 속성이 있다. 자세한 내용은 다음 URL을 참고하자.
+
+#### https://docs.djangoproject.com/en/3.1/ref/contrib/auth/#django.contrib.auth.models.User
+
+#### [2] makemigrations 명령 실행하고 author 필드 추가 문제 해결하기
+#### 모델을 수정했으므로 makemigrations 명령과 migrate 명령을 실행해보면 명령 프롬포트에 다음과 같은 메시지가 나온다
+
+#### You are trying to add a non-nullable field 'author' to question without a default; we can't do that 
+#### (the database needs something to populate existing rows).
+#### Please select a fix:
+#### 1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
+#### 지금 일회성 기본값 제공 (이 열에 대해 null 값이있는 모든 기존 행에 설정 됨)
+#### 2) Quit, and let me add a default in models.py
+#### 종료하고 models.py에 기본값을 추가하겠습니다.
+#### Select an option: 
+
+#### Question 모델에 author 필드를 추가하면 이미 등록되어 있던 게시물에 author 필드에 해당되는 값이 저장되어야 하는데,
+#### 장고는 author 필드에 어떤 값을 넣어야 하는지 모르기 때문이다
+#### 즉 기존에 저장된 Question 모델 데이터에는 author 필드값으로 어떤 값을 저장해야 하는지 묻는 것
+
+#### 문제를 해결하는 방법에는 2가지가 있다
+#### 첫 번째 방법은 author 필드를 null로 설정하는 방법
+#### 두 번째 방법은 기존 게시물에 추가될 author 필드의 값에 강제로 임의 계정 정보를 추가하는 방법
+#### 질문, 답변에는 author 필드값이 무조건 있어야 하므로 두 번째 방법을 사용하고 Select an option : 1 을 입력한다
+#### 명령 프롬프트에 다시 1을 입력하게 되면 makemigrations 가 완료가 된다
+
+#### ※ 입력한 '1'은 최초 생성했던 슈퍼 유저의 id값이므로 기존 게시물의 author에는 슈퍼 유저가 등록될 것
+#### makemigrations 진행 후 migrate(DB) 적용
+
+#### Answer 모델 수정하기
+
+#### [3] Answer 모델에 author 필드 추가하고 문제 해결하기
+#### Answer 모델도 위와 동일한 방법으로 똑같이 적용해준다
+
+#### ※ author 필드에 null 값 허용하기
+#### author 필드에 null을 허용하면 기존 게시물의 author 필드가 추가될 때 값이 없어도 작동 된다
+
+#### 글쓴이 표시하기
+#### ※ 이제 질문 / 답변 모델에 author 필드가 추가 되었으므로 순차적으로 진행한다
+#### 먼저 질문 등록시에 author 필드를 추가하도록 하자
+#### 질문 답변에 글쓴이를 추가한다는 느낌
+
+#### [4] 답변 등록 함수 수정하기
+#### answer.author = request.user
+#### 답변 글쓴이는 현재 로그인한 계정이므로 answer.author = request.user로 처리한다
+#### (request.user 는 현재 로그인한 계정의 User 모델 객체)
+
+#### [5] 질문 등록 함수 수정하기
+#### 이 함수도 마찬가지 방법으로 수정해준다
+
+#### 로그인이 필요한 함수 설정하기
+
+#### [6] 로그아웃 상태에서 질문, 답변 등록해 보기
+#### 로그아웃 상태에서 질문 또는 답변을 등록하면 다음과 같은 ValueError 오류가 발생했다
+
+#### 이 오류는 request.user가 User 객체가 아닌 AnonymousUser 객체라서 발생한 것
+#### 조금 더 자세히 설명하자면 request.user에는 로그아웃 상태이면 AnonymousUser 객체이고
+#### 로그인 상태이면 User 객체가 들어있는데
+#### 조금전 author 필드를 정의할 때 User를 이용하도록 했다.
+#### 그래서 answer.author = request.user에서 User 대신 현재 AnonymousUser가 대입되어 오류가 발생한 것
+
+#### [7] 오류해결 / 로그인이 필요한 함수에 @login_required 적용하기
+#### 이 문제를 해결하려면 로그인이 필요한 함수 answer_create, question_create에 @login_required 애너테이션을 사용해야 한다
+#### ※ from django.contrib.auth.decorators import login_required
+#### 함수명 위에 @login_required(login_url='common:login') 작성
+
+#### 답변 함수와 질문 함수는 request.user를 포함하고 있으므로 @login_required 애너테이션을 통해
+#### 로그인이 되었는지 "우선" 검사하여 오류 발생을 방지해주도록 한다
+#### 만약 로그아웃 상태에서 애너테이션이 적용된 함수가 호출되면 자동으로 로그인 화면으로 이동하게 된다
+#### 로그인으로 이동할수 있는 이유는 login_url= "common:login" 덕에 이동 할수 있게 되는것이다
+
+#### [8] URL next 인자로 로그인 성공 후 이동할 URL 지정하기
+#### 질문 등록하기'를 눌러 로그인 화면으로 전환된 상태에서 웹 브라우저 주소창의 URL을 보면 next 파라미터가 있을 것이다
+#### ※ 이는 로그인 성공 후 next 파라미터에 있는 URL로 페이지를 이동해야 한다는 의미 이지만 지금은 그렇게 되고 있지 않다
+
+#### [9] 로그인 템플릿에 hidden 항목 추가하여 next 파라미터 활용하기
+#### 로그인 후 next 파라미터에 있는 URL로 페이지를 이동하려면 로그인 템플릿에 다음과 같이 hidden 항목 next를 추가해야 한다.
+#### login.html <input type="hidden" name="next" value="{{ next }}">  <!-- 로그인 성공후 이동되는 URL -->
+#### ※ 로그인 후 next 파라미터의 URL로 이동
+
+#### [10] 로그아웃 상태에서 아예 글을 작성할 수 없게 만들기
+#### 로그아웃 상태에서 아예 답변을 작성할 수 없도록 만드는 방법은 disabled 속성을 사용하는 것이다.
+#### detail.html 에서 다음 코드를 추가하여 수정하였다
+####              <textarea {% if not user.is_authenticated %}disabled{% endif %}
+####              name="content" id="content" class="form-control" rows="10"></textarea>
