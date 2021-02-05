@@ -416,7 +416,7 @@
 
 ##### 2021-02-05
 #### 3-07 글쓴이 추가하기
-
+### GitHub : https://github.com/ksm0207/django_pybo/commit/d7652b22a61f86fd814e68af083ee505fc4ec907
 #### [1] Question 모델에 author 필드 추가하기
 #### author = models.ForeignKey(User, on_delete=models.CASCADE)
 
@@ -510,3 +510,4 @@
 #### detail.html 에서 다음 코드를 추가하여 수정하였다
 ####              <textarea {% if not user.is_authenticated %}disabled{% endif %}
 ####              name="content" id="content" class="form-control" rows="10"></textarea>
+
