@@ -379,5 +379,35 @@
 ##### 2021-02-02
 #### 3-06 회원가입 구현하기
 
-※ 장고의 django.contrib.auth 앱을 이용하여 구현하기
+#### ※ 장고의 django.contrib.auth 앱을 이용하여 구현시작
+#### ※ 내가 생각한 View를 만들기 위한 절차 단계
 
+#### [1] 회원가입 링크 추가
+#### ※ login.html 파일에 다음과 같이 URL을 만들어준다
+#### <span>또는 <a href="{% url 'common:signup' %}">계정을 만드세요.</a></span>
+
+#### [2] 회원가입 URL 매핑 추가하기
+#### common:signup 으로 이동 할수 있도록 urls.py에 매핑을 추가해주자
+#### path('signup/', views.signup, name='signup'),
+
+#### [3] 회원가입에 필요한 Form 만들기
+#### 사용한 Form : UserForm은 django.contrib.auth.forms 패키지의 UserCreationForm 클래스를 상속하고 email 속성을 추가했다.
+
+#### 상속한 UserCreationForm은 다음 속성을 가지고 있다.
+
+#### 속성명	       설명
+#### username	 사용자이름
+#### password1	 비밀번호1
+#### password2	 비밀번호2(비밀번호1을 제대로 입력했는지 대조하기 위한 값)
+#### ↑ UserCreationForm이 기본적으로 가지고 있는 속성
+#### ※ 위 속성에 부가 정보인 Email 속성을 추가하기 위해서 UserCreationForm을 상속한 UserForm을 만든 것
+#### # UserCreationForm 의 is_vaild 함수는 회원가입 화면의 필드값 3개가 모두 입력 되었는지 규칙에 맞는지 등등 검사한다
+
+#### [4] 회원가입을 위한 signup 함수 정의하기
+#### POST 요청인 경우 화면에서 입력한 데이터로 새로운 사용자를 생성하고,
+#### GET 요청인 경우 common/signup.html 화면을 반환한다.
+#### POST 요청에서 form.cleaned_data.get 함수는 회원가입 화면에서 입력한 값을 얻기 위해 사용하는 함수이다
+#### 로그인 시 필요한 아이디, 비밀번호를 얻기 위해 사용되었다. 그리고 회원가입이 완료된 이후에 자동으로 로그인되도록 authenticate 함수와 login 함수를 사용했다
+#### ※ authenticate, login 함수는 django.contrib.auth 패키지에 있는 함수로 사용자 인증과 로그인을 담당한다
+
+#### [5] 회원가입 템플릿 만들기
