@@ -47,8 +47,7 @@
                             class="delete btn-sm btn-outline-secondary" href="#"
                             data-uri= " {% url 'pybo:question_delete' get_question.id %} " >삭제</a>
                         </div>
-
-                    {% endif %}
+                {% endif %}
             </div>
         </div>
         <h5 class="border-bottom my-3 py-2">{{get_question.answer_set.count}}개의 답변이 있습니다.</h5>
