@@ -12,6 +12,7 @@ class Question(models.Model):
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, null=True
     )  # 계정이 삭제되면 연결된 질문 데이터 삭제
+    modify_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return self.subject
@@ -28,6 +29,8 @@ class Answer(models.Model):
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, null=True
     )  # 계정이 삭제되면 연결된 질문 데이터 삭제
+
+    modify_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return self.content

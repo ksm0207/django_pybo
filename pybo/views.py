@@ -7,6 +7,7 @@ from .forms import QuestionForm, AnswerForm
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 
+
 # from tkinter import *
 
 # - index 함수의 매개변수 request는 장고에 의해 자동으로 전달되는 HTTP 요청 객체이다.
@@ -110,3 +111,31 @@ def question_create(request):
     context = {"form": form}
     return render(request, "templates/question_form.html", context)
 
+
+# 게시물 수정 기능 함수 추가
+def question_modify(request, get_question):
+
+    question = Question.objects.get(pk=get_question)
+
+    # 로그인한 사용자 와 수정하려는 글쓴이와 다르면 오류메시지 출력
+    if request.user != question.author:
+        messages.error(request, "올바르지 않은 요청입니다.")
+        return redirect("pybo:detail", pk=get_question)
+
+    if request.method == "POST":
+        # 질문 수정을 위해 값 덮어쓰기
+        form = QuestionForm(request.POST, instance=question)
+        print("form ============ ", form)
+        if form.is_valid():
+            question = form.save(commit=False)
+            question.author = request.user
+            question.modify_date = timezone.now()
+            question.save()
+            return redirect("pybo:detail", pk=get_question)
+    else:
+        # GET 요청으로 질문 수정 화면이 나타남
+        # [질문 수정 화면에 기존 제목, 내용 반영]
+        form = QuestionForm(instance=question)
+    context = {"form": form}
+
+    return render(request, "templates/question_form.html", context)

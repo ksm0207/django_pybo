@@ -28,7 +28,15 @@
                             <span>작성날짜 : {{ get_question.create_date }}</span>
                         </div>
                     </div>
+                    
                 </div>
+                {% if request.user == get_question.author %}
+                        <div class="my-3">
+                            <a  style="border-radius: 10px;" class="btn btn-sm btn-outline-secondary" 
+                            href=" {% url 'pybo:question_modify' get_question.id %} ">수정</a>
+                            {{get_question.id}}
+                        </div>
+                    {% endif %}
             </div>
         </div>
         <h5 class="border-bottom my-3 py-2">{{get_question.answer_set.count}}개의 답변이 있습니다.</h5>

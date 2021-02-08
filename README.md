@@ -514,3 +514,116 @@
 #### 3-07 글쓴이 표시하기
 #### GitHub : https://github.com/ksm0207/django_pybo/commit/afa4fa0b0835f47d3b3b9a4dbcdb6608baab9f61
 #### 게시판의 게시물에는 '글쓴이'를 표시하는 것이 일반적이다. 질문 목록, 질문 상세 화면에 auther 필드를 이용하여 글쓴이를 표시해 보자
+
+##### 2021-02-08
+#### 3-09 게시물 수정 & 삭제 기능 추가하기
+
+* [1] Question, Answer 모델에 modify_date 필드 추가하기 (Model 수정)
+* 질문, 답변을 언제 수정했는지 확인할 수 있도록 Question 모델과 Answer 모델에 수정일시를 의미하는 modify_date 필드를 추가
+
+```
+class Question(models.Model):
+    modify_date = models.DateTimeField(null=True, blank=True)
+
+class Answer(models.Model):
+    modify_date = models.DateTimeField(null=True, blank=True)
+```
+* ※ null = True : DB 에서 컬럼에 Null 값을 허용한다는 뜻이다
+* ※ blank = Ture : form.is_vaild() 를 통한 필드에 입력한 데이터(값) 를 검사 할때 값이 없어도 된다는 의미 이다
+* 즉 이 둘은 어떤 조건으로든 값을 비워도 상관 없음을 의미 한다
+* 수정 일시는 수정한 경우에만 생성되는 데이터 이므로 이 둘을 지정 해주었다 
+
+[2] makemigrations, migrate 명령 수행하기
+
+* 새로운 모델이 생겼으므로 makemigrations --> migrate 명령 시작
+
+```
+ PS C:\Users\user\Documents\GitHub\django_pybo> python manage.py makemigrations
+Migrations for 'pybo':
+  pybo\migrations\0009_auto_20210208_1614.py
+    - Add field modify_date to answer       
+    - Add field modify_date to question     
+PS C:\Users\user\Documents\GitHub\django_pybo> python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, pybo, sessions
+Running migrations:
+  Applying pybo.0009_auto_20210208_1614... OK
+```   
+
+* 질문 수정 기능 추가하기
+
+### [3] 질문 수정 버튼 추가하기
+### 질문 상세 화면에 질문 수정 버튼을 추가하자.
+
+#### 로그인한 사용자와 글쓴이가 같은 경우에만 보이도록 하기 위해 다음 조건문을 추가하였다
+* detail.html
+```
+{% if request.user == get_question.author %}
+    <a href="{% url 'pybo:question_modify' question.id  %}" >수정</a>
+{% endif %}
+```
+
+### [4] 질문 수정 버튼을 위한 URL 매핑 추가하기
+
+* url 'pybo:question_modify' question.id 이 URL에 추가 되었으니 매핑을 추가해줘야 한다
+* pybo/urls.py
+
+```
+ path('question/modify/<int:question_id>/', views.question_modify, name='question_modify'),
+```
+
+* pybo/views.py
+
+### URL 매핑에 등록하였다면 views.py에 가서 다음 함수를 추가한다
+
+```
+# 게시물 수정 기능 함수 추가
+def question_modify(request, get_question):
+    return pass
+```
+#### 이 함수는 로그인한 사용자는 request.user 이고 수정 하려는 글쓴이 question.author 와 다르다면
+#### 권한이 없다는 오류 메시지를 발생시키도록 하였다
+
+* 오류 메시지를 발생 시키려면 다음과 같은 모듈을 추가해준다
+```
+from django.contrib import messages
+```
+#### messages 모듈은 장고가 제공하는 함수로 오류를 임의로 발생시키고 싶은 경우에 사용한다
+#### 이때 임의로 발생시킨 오류는 폼 필드와 관련이 없으므로 넌필드 오류에 해당된다.
+#### None Field = https://wikidocs.net/71259 
+
+* Form Error 2가지
+* 필드 오류(입력값이 누락되었거나 형식에 맞지 않음)
+* 넌필드 오류(입력값과 관계없이 발생한 오류)
+
+#### 질문 상세 화면에서 <수정>을 누르면 /pybo/question/modify/2/ 페이지가 GET 방식으로 호출되어 질문 수정 화면이 나타나고
+#### <저장하기>를 누르면 /pybo/question/modify/2/ 페이지가 POST 방식으로 호출되어 데이터 수정이 이뤄진다.
+
+### ※ 데이터 저장 시 form action 속성이 없으면 현재의 페이지로 폼을 전송함
+
+#### 이때 GET 요청으로 질문 수정 화면이 나타날 때 기존에 저장되어 있던 제목, 내용이 반영된 상태에서 수정을 시작할 수 있도록
+#### 다음과 같이 폼을 생성했다
+
+* 질문 수정 화면에 기존 제목 내용 반영 하는 form
+
+```
+form = QuestionForm(instance=question)
+```
+
+instance 매개변수에 question을 지정하면 기존 값을 폼에 채울 수 있다
+※ 사용자가 질문 수정 시 제목 내용이 채워진 상태의 폼에서 수정을 시작 할수 있도록 의도
+
+POST 요청으로 수정 내용을 반영하는 경우엔 다음과 같은 폼이 필요하다
+※ 질문 수정을 위해 값 덮어쓰기
+```
+form = QuestionForm(request.POST, instance=question)
+```
+### 이 코드는 조회한 질문 question을 기본값으로 정하고 화면으로 전달받은 입력값들을 덮어써서
+### QuestionForm에 생성하라는 의미가 된다
+
+마지막으로 질문 수정날짜를 현재일시로 저장하는 코드이다
+```
+question.modify_date = timezone.now()
+```
+
+
