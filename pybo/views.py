@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.utils import timezone
-from .models import Question
+from .models import Question, Answer
 from django.contrib import messages
 from .forms import QuestionForm, AnswerForm
 from django.core.paginator import Paginator
@@ -139,3 +139,50 @@ def question_modify(request, get_question):
     context = {"form": form}
 
     return render(request, "templates/question_form.html", context)
+
+
+# 질문 삭제 함수 추가
+def question_delete(request, get_question):
+
+    question = Question.objects.get(pk=get_question)
+
+    if request.user != question.author:
+        messages.error(request, "삭제권한이 없습니다")
+        return redirect("pybo:detail", pk=get_question)
+
+    question.delete()
+    return redirect("pybo:index")
+
+
+# 답변 수정 함수 추가
+def answer_modify(request, answer_id):
+
+    answer = Answer.objects.get(pk=answer_id)
+
+    if request.user != answer.author:
+        messages.error(request, "유효하지 않은 요청입니다.")
+
+    if request.method == "POST":
+        form = AnswerForm(request.POST, instance=answer)
+        if form.is_valid():
+            answer = form.save(commit=False)
+            answer.author = request.user
+            answer.modify_date = timezone.now()
+            answer.save()
+            return redirect("pybo:detail", pk=answer.question.id)
+    else:
+        form = AnswerForm(instance=answer)
+    context = {"form": form}
+
+    return render(request, "templates/answer_form.html", context)
+
+
+def answer_delete(request, answer_id):
+
+    answer = Answer.objects.get(pk=answer_id)
+    if request.user != answer.author:
+        messages.error(request, "유효하지 않은 요청입니다.")
+        return redirect("pybo:detail", pk=answer.question.id)
+
+    answer.delete()
+    return redirect("pybo:detail", pk=answer.question.id)

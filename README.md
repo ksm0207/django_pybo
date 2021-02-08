@@ -628,4 +628,75 @@ form = QuestionForm(request.POST, instance=question)
 question.modify_date = timezone.now()
 ```
 
+질문 삭제 기능 추가하기
+
+* 질문 삭제 버튼 추가하기
+* 제이쿼리 사용
+* detail.html
+
+```
+<a href="#" class="delete btn btn-sm btn-outline-secondary"
+       data-uri="{% url 'pybo:question_delete' question.id  %}">삭제</a>
+```
+
+※ 삭제 버튼은 href 속성값을 #으로 정해주었다 삭제할 URL을 얻기위해 data-uri 속성을 추가하고
+  버튼을 클릭하였을때 이벤트를 확인할 수 있도록 class 속성에 delete 항목을 추가하였다
+  (data-uri 속성은 제이쿼리에서 $(this).data('uri')와 같이 사용하여 그 값을 얻을 수 있다.)
+
+* 제이쿼리
+
+<삭제> 버튼을 누르면 확인 창이 나타나고, 확인 창에서 <확인> 버튼을 누르면
+앞서 입력했던 data-uri 속성값으로 URL이 호출된다
+
+[5] 질문 템플릿에 삭제 알림 창 기능 추가하기
+
+* detail.html
+
+detail.html 파일 아래에 {% block script %}{% endblock %}를 추가하고 질문을 삭제할 수 있도록 추가한다
+
+```
+{% endblock -- content block  %}
+
+    {% block script %}
+    <script type='text/javascript'>
+        $(document).ready(function(){
+         $(".delete").on('click', function() {
+             if(confirm("정말로 삭제하시겠습니까?")) {
+            location.href = $(this).data('uri');
+        }
+            });
+        });
+    </script>
+{% endblock %}
+```
+
+[6] 질문 삭제 URL 매핑 추가하기
+이전에 data-uri 속성을 추가하여 {% url 'pybo:question_delete' question.id %} 으로 지정하였으므로
+매핑을 추가해주도록 한다
+
+```
+path(
+        "question/delete/<int:get_question>/",
+        views.question_delete,
+        name="question_delete",
+    ),
+```
+
+[7] 질문 삭제 함수 추가하기
+
+```
+def question_delete(request, get_question):
+
+    question = Question.objects.get(pk=get_question)
+
+    if request.user != question.author:
+        messages.error(request, "삭제권한이 없습니다")
+        return redirect("pybo:detail", pk=get_question)
+
+    question.delete()
+    return redirect("pybo:index")
+```
+
+[8] 답변 수정 & 삭제 기능 추가하기
+
 
