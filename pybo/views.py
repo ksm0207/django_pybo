@@ -177,6 +177,7 @@ def answer_modify(request, answer_id):
     return render(request, "templates/answer_form.html", context)
 
 
+# 답변 삭제 함수 추가
 def answer_delete(request, answer_id):
 
     answer = Answer.objects.get(pk=answer_id)
