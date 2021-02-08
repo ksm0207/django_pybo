@@ -518,6 +518,8 @@
 ##### 2021-02-08
 #### 3-09 게시물 수정 & 삭제 기능 추가하기
 
+* GitHub : https://github.com/ksm0207/django_pybo/commit/28df2fee4ca446914f0a689c364e292622be059b
+
 * [1] Question, Answer 모델에 modify_date 필드 추가하기 (Model 수정)
 * 질문, 답변을 언제 수정했는지 확인할 수 있도록 Question 모델과 Answer 모델에 수정일시를 의미하는 modify_date 필드를 추가
 
