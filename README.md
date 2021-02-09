@@ -698,5 +698,6 @@ def question_delete(request, get_question):
 ```
 
 [8] 답변 수정 & 삭제 기능 추가하기
+GitHub : https://github.com/ksm0207/django_pybo/commit/00157c870e14c42f6f57e18d1a8988f70ee37a0f
 
 
