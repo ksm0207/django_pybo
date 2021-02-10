@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Question, Answer
+from .models import Question, Answer, Comment
 
 
 class QuestionAdmin(admin.ModelAdmin):
@@ -13,4 +13,9 @@ class AnswerAdmin(admin.ModelAdmin):
     pass
 
 
+class CommnetAdmin(admin.ModelAdmin):
+    pass
+
+
 admin.site.register(Answer)
+admin.site.register(Comment)

@@ -35,3 +35,17 @@ class Answer(models.Model):
     def __str__(self):
         return self.content
 
+
+# 댓글 모델 생성
+class Comment(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    question = models.ForeignKey(
+        Question, on_delete=models.CASCADE, null=True, blank=True
+    )
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE, null=True, blank=True)
+    content = models.TextField()
+    create_date = models.DateTimeField()
+    modify_date = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return self.author
