@@ -131,3 +131,14 @@ LOGIN_REDIRECT_URL = "/"
 # 로그아웃 성공시 이동하는 URL
 LOGOUT_REDIRECT_URL = "/"
 
+
+#  세션 타임 아웃 설정
+
+# 초 단위로 세션 타임아웃 시간을 설정
+SESSION_COOKIE_AGE = 60
+
+# 사용자가 리퀘스트를 서버로 날릴 때마다 서버의 세션 정보와 클라이언트의 세션 정보를 갱신할 것인지를 설정하고
+# 이 값을 False 로 해 두면 SESSION_COOKIE_AGE 에서 설정한 시간을 넘어가게 되면 무조건 세션은 사라집니다
+# 사용자가 아무런 리퀘스트를 보내지 않는 시간을 세션 타임아웃 시간으로 설정할려면 True로 변경하면 됩니다
+SESSION_SAVE_EVERY_REQUEST = True
+
